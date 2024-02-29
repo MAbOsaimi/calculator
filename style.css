@@ -1,27 +1,36 @@
+@font-face {
+    font-family: "digital7";
+    src: url("./Digital7-rg1mL.ttf");
+}
+
 body {
     height: 100vh;
+    background-color: #a3a3a3;
 }
 
 #calculator {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: 400px;
     height: 700px;
     top: 40px;
     left: calc(50% - 400px / 2);
     position: relative;
     background-color: black;
+    border: 5px solid orange;
 }
 
 #display {
-    width: 100%;
     height: 20%;
-    background-color: grey;
-}
+    padding: 0.3em;
+    text-wrap: nowrap;
+    overflow: scroll;
+    border-bottom: 4px dotted goldenrod;
 
-#input-pad {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    height: calc(700px - 20%);
+    font-size: 2em;
+    font-family: "digital7";
+    background-color: grey;
 }
 
 #numbers-pad {
@@ -49,4 +58,13 @@ body {
 .basic-operation {
     width: calc(400px / 5);
     height: 50px;
+}
+
+#brackets {
+    display: flex;
+}
+
+.bracket {
+    width: calc(400px / 4);
+    height: 40px;
 }
