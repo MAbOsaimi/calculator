@@ -55,20 +55,20 @@ function parser(input) {
   return evaluate(postfixExp);
 }
 
-function convertInfixToPostfix(infixExp) {
+function convertInfixToPostfix(exp) {
   let buffer = "";
   let operators = [];
-  for (const char of infixExp) {
+  for (const char of exp) {
     if (/\d/.test(char)) {
       buffer += char;
       continue;
     }
     if (
-      operations.indexOf(char) >= 0 ||
-      opening.indexOf(char) >= 0 ||
-      closing.indexOf(char) >= 0
+      operations.includes(char) ||
+      opening.includes(char) ||
+      closing.includes(char)
     ) {
-      let top = operators.at(-1);
+      let top = operators[operators.length - 1];
       switch (char) {
         case "(":
         case "[":
@@ -78,21 +78,23 @@ function convertInfixToPostfix(infixExp) {
         case "]":
           while (opening.indexOf(top) != closing.indexOf(char)) {
             buffer += operators.pop();
-            top = operators.at(-1);
+            top = operators[operators.length - 1];
           }
           operators.pop();
           break;
-        case operations.indexOf(char) != -1:
-          const currentPrec = getPrecedence(c);
-          while (operators.length > 0 && opening.indexOf(top) === -1) {
-            let topPrec = getPrecedence(top);
-            if (currentPrec <= topPrec) {
-              buffer += operators.pop();
-            } else {
-              break;
+        default:
+          if (operations.includes(char)) {
+            const currentPrec = getPrecedence(char);
+            while (operators.length > 0 && !opening.includes(top)) {
+              let topPrec = getPrecedence(top);
+              if (currentPrec <= topPrec) {
+                buffer += operators.pop();
+              } else {
+                break;
+              }
             }
+            operators.push(char);
           }
-          operators.push(char);
       }
     }
   }
