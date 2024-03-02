@@ -8,29 +8,50 @@ body {
     background-color: #a3a3a3;
 }
 
+button {
+    color: #f4ffafde;
+    cursor: pointer;
+    background-color: #2d2d2d;
+    font-family: monospace, fantasy, Cambria;
+    font-weight: bolder;
+    font-size: larger;
+}
+
 #calculator {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 400px;
-    height: 700px;
+    height: 550px;
     top: 40px;
     left: calc(50% - 400px / 2);
     position: relative;
     background-color: black;
-    border: 5px solid orange;
+    border: 5px solid;
 }
 
 #display {
-    height: 20%;
+    height: 100%;
     padding: 0.3em;
-    text-wrap: nowrap;
-    overflow: scroll;
-    border-bottom: 4px dotted goldenrod;
-
-    font-size: 2em;
     font-family: "digital7";
     background-color: grey;
+}
+
+#input {
+    height: 50%;
+    color: #f9ffef;
+    font-size: 3em;
+    text-wrap: nowrap;
+    overflow: scroll;
+}
+
+#result {
+    height: 50%;
+    font-size: 4.3em;
+    text-align: end;
+    text-wrap: nowrap;
+    overflow: scroll;
+    color: yellow;
 }
 
 #numbers-pad {
@@ -45,15 +66,40 @@ body {
 
 #calculator-operations {
     display: flex;
+    width: calc(400px - calc(400px / 5));
 }
 
 .calculator-operation {
-    width: calc(400px / 3);
+    position: relative;
+    width: calc(400px / 2.5);
     height: 50px;
+}
+
+#store {
+    background-color: darkslategrey;
+}
+
+#delete {
+    background-color: #e7786f;
+}
+
+#clear {
+    width: 100%;
+    background-color: #d25b52;
+}
+
+#evaluate {
+    height: 100px;
+}
+
+#last-answer {
+    background-color: #327575;
 }
 
 #basic-operations {
     display: flex;
+    position: relative;
+    top: 50px;
 }
 
 .basic-operation {

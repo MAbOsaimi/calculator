@@ -1,122 +1,30 @@
+import { parser } from "./parser.js";
+
 const input = document.querySelectorAll(".input");
 
-const display = document.getElementById("display");
-
-const calculatorOp = document.querySelectorAll(".calculator-operation");
+const inputDisplay = document.getElementById("input");
+const resultDisplay = document.getElementById("result");
 
 const clearOp = document.getElementById("clear");
 const deleteOp = document.getElementById("delete");
 const evaluate = document.getElementById("evaluate");
+
+/* TODO: add keyboard support, implement last answer and store functionality, add more operations. */
 for (const inputAble of input) {
   inputAble.addEventListener("click", () => {
-    display.textContent += inputAble.textContent;
+    inputDisplay.textContent += inputAble.textContent.trim();
   });
 }
 
-clearOp.addEventListener("click", () => {
-  display.textContent = "";
+deleteOp.addEventListener("click", () => {
+  inputDisplay.textContent = inputDisplay.textContent.slice(0, -1);
 });
 
-deleteOp.addEventListener("click", () => {
-  display.textContent = display.textContent.slice(0, -1);
+clearOp.addEventListener("click", () => {
+  inputDisplay.textContent = "";
 });
 
 evaluate.addEventListener("click", () => {
-  const result = parser(display.textContent());
+  const result = parser(inputDisplay.textContent);
+  resultDisplay.textContent = result;
 });
-
-const opening = "([";
-const closing = ")]";
-const operations = "-+*/^";
-/* TODO: Validate input*/
-
-function parser(input) {
-  // const expectedPattern = /\d+[{-+*/^()[]}+]d+/g;
-  const exp = input.replaceAll(/−|+|×|÷/g, (op) => {
-    switch (op) {
-      case "−":
-        return "-";
-      case "+":
-        return "+";
-      case "×":
-        return "*";
-      case "÷":
-        return "/";
-    }
-  });
-  if (
-    operations.indexOf(exp.chartAt(0)) >= 0 ||
-    operations.indexOf(exp.charAt(exp.length - 1)) >= 0
-  ) {
-    return "Syntax Error";
-  }
-
-  const postfixExp = convertInfixToPostfix(exp);
-  return evaluate(postfixExp);
-}
-
-function convertInfixToPostfix(exp) {
-  let buffer = "";
-  let operators = [];
-  for (const char of exp) {
-    if (/\d/.test(char)) {
-      buffer += char;
-      continue;
-    }
-    if (
-      operations.includes(char) ||
-      opening.includes(char) ||
-      closing.includes(char)
-    ) {
-      let top = operators[operators.length - 1];
-      switch (char) {
-        case "(":
-        case "[":
-          operators.push(char);
-          break;
-        case ")":
-        case "]":
-          while (opening.indexOf(top) != closing.indexOf(char)) {
-            buffer += operators.pop();
-            top = operators[operators.length - 1];
-          }
-          operators.pop();
-          break;
-        default:
-          if (operations.includes(char)) {
-            const currentPrec = getPrecedence(char);
-            while (operators.length > 0 && !opening.includes(top)) {
-              let topPrec = getPrecedence(top);
-              if (currentPrec <= topPrec) {
-                buffer += operators.pop();
-              } else {
-                break;
-              }
-            }
-            operators.push(char);
-          }
-      }
-    }
-  }
-  while (operators.length > 0) {
-    buffer += operators.pop();
-  }
-  return buffer;
-}
-
-function getPrecedence(op) {
-  switch (op) {
-    case "^":
-      return 3;
-    case "*":
-    case "/":
-      return 2;
-    case "+":
-    case "-":
-      return 1;
-  }
-}
-
-evaluate(postfixExp){
-
-}
