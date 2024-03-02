@@ -7,9 +7,11 @@ const resultDisplay = document.getElementById("result");
 
 const clearOp = document.getElementById("clear");
 const deleteOp = document.getElementById("delete");
-const evaluate = document.getElementById("evaluate");
+const evaluateOp = document.getElementById("evaluate");
+const lastAnswerOp = document.getElementById("last-answer");
+let lastAnswer = "0";
 
-/* TODO: add keyboard support, implement last answer and store functionality, add more operations. */
+/* TODO: add keyboard support, implement store functionality, add more operations. */
 for (const inputAble of input) {
   inputAble.addEventListener("click", () => {
     inputDisplay.textContent += inputAble.textContent.trim();
@@ -24,7 +26,13 @@ clearOp.addEventListener("click", () => {
   inputDisplay.textContent = "";
 });
 
-evaluate.addEventListener("click", () => {
-  const result = parser(inputDisplay.textContent);
+evaluateOp.addEventListener("click", () => {
+  const input = inputDisplay.textContent.replaceAll("Ans", lastAnswer);
+  const result = parser(input);
   resultDisplay.textContent = result;
+  lastAnswer = result;
+});
+
+lastAnswerOp.addEventListener("click", () => {
+  inputDisplay.textContent += "Ans";
 });
